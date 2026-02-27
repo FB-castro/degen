@@ -17,17 +17,24 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install .
+      - name: Install degen
+        run: pip install .
 
-      - run: degen --version
-      - run: degen list
-      - run: degen doctor || true
+      - name: Version
+        run: degen --version
+
+      - name: List
+        run: degen list
+
+      - name: Doctor
+        run: degen doctor || true
 
   generated-projects:
-    name: Generated Projects
+    name: Generated - ${{ matrix.pattern }} / ${{ matrix.stack }}
     runs-on: ubuntu-24.04
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - pattern: "Analytics"
@@ -55,31 +62,41 @@ jobs:
       - name: Install degen
         run: pip install .
 
-      - name: Install Make & Docker Compose plugin
-        run: |
-          sudo apt update
-          sudo apt install -y make
-
-      - name: Generate Project
+      - name: Generate project
         run: |
           degen init \
             --name test_project \
             --pattern "${{ matrix.pattern }}" \
             --stack "${{ matrix.stack }}"
 
-      - name: Install project dependencies
+      - name: Install dependencies
         run: |
           cd test_project
           make install
 
-      - name: Run project locally
+      - name: Run locally
         run: |
           cd test_project
           make run
 
-      - name: Run Docker
+      - name: Docker up
         run: |
           cd test_project
           make docker-up
-          sleep 10
+
+      - name: Wait for containers
+        run: |
+          sleep 15
+          docker ps
+
+      - name: Docker logs (debug)
+        if: always()
+        run: |
+          cd test_project
+          docker compose logs || true
+
+      - name: Docker down
+        if: always()
+        run: |
+          cd test_project
           make docker-down
