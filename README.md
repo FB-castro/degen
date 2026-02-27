@@ -3,6 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.12+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-0.3.0-brightgreen)
+![CI](https://github.com/FB-castro/degen/actions/workflows/ci.yml/badge.svg)
 
 Generate production-ready data engineering architectures in seconds.
 

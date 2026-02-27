@@ -2,21 +2,84 @@ name: CI
 
 on:
   push:
+    branches: [ main ]
   pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  cli:
+    name: CLI Tests
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: "3.12"
 
       - run: pip install .
 
       - run: degen --version
       - run: degen list
       - run: degen doctor || true
+
+  generated-projects:
+    name: Generated Projects
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        include:
+          - pattern: "Analytics"
+            stack: "dbt + DuckDB"
+
+          - pattern: "Batch ETL"
+            stack: "DuckDB Local"
+
+          - pattern: "Batch ETL"
+            stack: "dbt + DuckDB"
+
+          - pattern: "ELT"
+            stack: "Airflow + Postgres"
+
+          - pattern: "Medallion"
+            stack: "Spark + MinIO"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install degen
+        run: pip install .
+
+      - name: Install Make & Docker Compose plugin
+        run: |
+          sudo apt update
+          sudo apt install -y make
+
+      - name: Generate Project
+        run: |
+          degen init \
+            --name test_project \
+            --pattern "${{ matrix.pattern }}" \
+            --stack "${{ matrix.stack }}"
+
+      - name: Install project dependencies
+        run: |
+          cd test_project
+          make install
+
+      - name: Run project locally
+        run: |
+          cd test_project
+          make run
+
+      - name: Run Docker
+        run: |
+          cd test_project
+          make docker-up
+          sleep 10
+          make docker-down
