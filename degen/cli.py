@@ -30,12 +30,18 @@ def get_version():
         return "0.0.0-dev"
 
 
+def show_version(value: bool):
+    if value:
+        console.print(f"degen v{get_version()}")
+        raise typer.Exit()
+
 @app.callback()
 def main(
     version_flag: bool = typer.Option(
-        None,
+        False,
         "--version",
         help="Show DEGEN version.",
+        callback=lambda value: show_version(value),
         is_eager=True,
     ),
     verbose: bool = typer.Option(
@@ -51,10 +57,6 @@ def main(
         help="Suppress non-error logs.",
     ),
 ):
-    if version_flag:
-        console.print(f"degen v{get_version()}")
-        raise typer.Exit()
-
     configure_logger(verbose=verbose, quiet=quiet)
 
 
