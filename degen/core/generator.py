@@ -2,9 +2,12 @@ from pathlib import Path
 from degen.registry.pattern_registry import PatternRegistry
 from degen.registry.stack_registry import StackRegistry
 from degen.core.project_scaffold import create_common_files
-
+from degen.core.logger import logger
 
 def generate_project(project_name: str, pattern_name: str, stack_name: str):
+    logger.debug(f"Generating project at {root}")
+    logger.debug(f"Applying pattern: {pattern_name}")
+    logger.debug(f"Applying stack: {stack_name}")
     root = Path.cwd() / project_name
     root.mkdir(parents=True, exist_ok=True)
 
