@@ -11,15 +11,24 @@ jobs:
 
     strategy:
       matrix:
-        pattern:
-          - "Batch ETL"
-          - "Analytics"
-          - "Medallion"
-          - "ELT"
-        stack:
-          - "dbt + DuckDB"
-          - "Spark + MinIO"
-          - "Airflow + Postgres"
+        include:
+          - pattern: "Batch ETL"
+            stack: "dbt + DuckDB"
+
+          - pattern: "Batch ETL"
+            stack: "Spark + MinIO"
+
+          - pattern: "Batch ETL"
+            stack: "Airflow + Postgres"
+
+          - pattern: "Analytics"
+            stack: "dbt + DuckDB"
+
+          - pattern: "Medallion"
+            stack: "Spark + MinIO"
+
+          - pattern: "ELT"
+            stack: "Airflow + Postgres"
 
     steps:
       - name: Checkout
@@ -45,7 +54,7 @@ jobs:
           cd test_project
           make install
 
-      - name: Run project (when applicable)
+      - name: Run project
         run: |
           cd test_project
           make run || true
