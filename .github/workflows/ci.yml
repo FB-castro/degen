@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - pattern: "Batch ETL"
@@ -31,16 +32,17 @@ jobs:
             stack: "Airflow + Postgres"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
       - name: Install degen
         run: pip install .
+
+      - name: Cleanup old project
+        run: rm -rf test_project
 
       - name: Generate project
         run: |
