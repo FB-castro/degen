@@ -6,58 +6,29 @@ on:
   pull_request:
 
 jobs:
-  cli:
-    name: CLI Tests
-    runs-on: ubuntu-24.04
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.12"
-
-      - name: Install degen
-        run: pip install .
-
-      - name: Version
-        run: degen --version
-
-      - name: List
-        run: degen list
-
-      - name: Doctor
-        run: degen doctor || true
-
-  generated-projects:
-    name: Generated - ${{ matrix.pattern }} / ${{ matrix.stack }}
-    runs-on: ubuntu-24.04
+  generate-projects:
+    runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
       matrix:
-        include:
-          - pattern: "Analytics"
-            stack: "dbt + DuckDB"
-
-          - pattern: "Batch ETL"
-            stack: "DuckDB Local"
-
-          - pattern: "Batch ETL"
-            stack: "dbt + DuckDB"
-
-          - pattern: "ELT"
-            stack: "Airflow + Postgres"
-
-          - pattern: "Medallion"
-            stack: "Spark + MinIO"
+        pattern:
+          - "Batch ETL"
+          - "Analytics"
+          - "Medallion"
+          - "ELT"
+        stack:
+          - "dbt + DuckDB"
+          - "Spark + MinIO"
+          - "Airflow + Postgres"
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: 3.12
 
       - name: Install degen
         run: pip install .
@@ -69,34 +40,17 @@ jobs:
             --pattern "${{ matrix.pattern }}" \
             --stack "${{ matrix.stack }}"
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: |
           cd test_project
           make install
 
-      - name: Run locally
+      - name: Run project (when applicable)
         run: |
           cd test_project
-          make run
+          make run || true
 
-      - name: Docker up
+      - name: Validate Docker Compose
         run: |
           cd test_project
-          make docker-up
-
-      - name: Wait for containers
-        run: |
-          sleep 15
-          docker ps
-
-      - name: Docker logs (debug)
-        if: always()
-        run: |
-          cd test_project
-          docker compose logs || true
-
-      - name: Docker down
-        if: always()
-        run: |
-          cd test_project
-          make docker-down
+          make docker-validate

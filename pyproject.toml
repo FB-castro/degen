@@ -1,6 +1,6 @@
 [project]
 name = "degen"
-version = "0.3.0"
+version = "0.3.1"
 description = "Data Engineering Project Generator CLI"
 authors = [{ name="Felipe Castro" }]
 readme = "README.md"

@@ -25,7 +25,7 @@ ENV=dev
 
         # Dockerfile
         (root / "Dockerfile").write_text(
-            """FROM bitnami/spark:3.5.1
+            """FROM image: bitnami/spark:latest
 WORKDIR /app
 COPY . .
 """
@@ -48,7 +48,7 @@ services:
       - "9001:9001"
 
   spark:
-    image: bitnami/spark:3.5.1
+    image: bitnami/spark:latest
     volumes:
       - .:/app
     working_dir: /app

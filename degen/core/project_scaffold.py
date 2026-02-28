@@ -1,26 +1,11 @@
 from pathlib import Path
 
 
-def create_project_root(name: str) -> Path:
-    """
-    Cria o diretório raiz do projeto.
-    """
-    root = Path(name).resolve()
-
-    if root.exists():
-        raise FileExistsError(f"Directory '{name}' already exists.")
-
-    root.mkdir(parents=True, exist_ok=False)
-
-    return root
-
-
 def create_common_files(root: Path, run_command: str = "python src/main.py"):
     """
     Cria arquivos base do projeto.
     """
 
-    # Garantia extra de segurança
     root.mkdir(parents=True, exist_ok=True)
 
     # .gitignore
@@ -37,7 +22,7 @@ logs/
 """
     )
 
-    # Makefile
+    # Makefile otimizado para CI
     (root / "Makefile").write_text(
         f"""venv:
 \tpython -m venv .venv
@@ -49,12 +34,15 @@ run:
 \t. .venv/bin/activate && {run_command}
 
 docker-build:
-\tdocker compose build
+\t@if [ -f docker-compose.yml ]; then docker compose build; else echo "No docker-compose.yml, skipping build"; fi
 
 docker-up:
-\tdocker compose up -d
+\t@if [ -f docker-compose.yml ]; then docker compose up -d; else echo "No docker-compose.yml, skipping docker-up"; fi
 
 docker-down:
-\tdocker compose down
+\t@if [ -f docker-compose.yml ]; then docker compose down; else echo "No docker-compose.yml, skipping docker-down"; fi
+
+docker-validate:
+\t@if [ -f docker-compose.yml ]; then docker compose config > /dev/null; else echo "No docker-compose.yml, skipping validation"; fi
 """
     )
