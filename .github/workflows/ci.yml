@@ -13,21 +13,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Batch
+          - pattern: "Batch ETL"
+            stack: "DuckDB Local"
+
           - pattern: "Batch ETL"
             stack: "dbt + DuckDB"
 
-          - pattern: "Batch ETL"
-            stack: "Spark + MinIO"
-
-          - pattern: "Batch ETL"
-            stack: "Airflow + Postgres"
-
+          # Analytics
           - pattern: "Analytics"
             stack: "dbt + DuckDB"
 
+          # Medallion
           - pattern: "Medallion"
             stack: "Spark + MinIO"
 
+          # ELT
           - pattern: "ELT"
             stack: "Airflow + Postgres"
 

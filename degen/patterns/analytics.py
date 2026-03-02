@@ -1,15 +1,22 @@
-from pathlib import Path
 from degen.patterns.base import Pattern
-from degen.registry.pattern_registry import PatternRegistry
+from degen.core.phases import Phase
 
 
 class AnalyticsPattern(Pattern):
+
     name = "Analytics"
-    supported_stacks = ["dbt + DuckDB"]
 
-    def create_structure(self, root: Path):
-        (root / "models").mkdir(parents=True, exist_ok=True)
-        (root / "data").mkdir(parents=True, exist_ok=True)
+    required_phases = [
+        Phase.ORCHESTRATE,
+        Phase.TRANSFORM,
+        Phase.STORE,
+        Phase.SERVE,
+    ]
 
+    def validate_tools(self, tools):
 
-PatternRegistry.register(AnalyticsPattern)
+        selected_phases = {tool.phase for tool in tools}
+        missing = set(self.required_phases) - selected_phases
+
+        if missing:
+            raise ValueError(f"Missing required phases: {missing}")

@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from pathlib import Path
-from typing import List
+from degen.core.phases import Phase
 
 
 class Pattern(ABC):
+
     name: str
-    supported_stacks: List[str] = []
+    required_phases: list[Phase]
 
     @abstractmethod
-    def create_structure(self, root: Path):
+    def validate_tools(self, tools):
         pass
