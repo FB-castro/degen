@@ -1,29 +1,54 @@
-# 🚀 DEGEN — Data Engineering Generator
+# 🚀 DEGEN — Data Engineering Project Generator
 
 ![Python](https://img.shields.io/badge/python-3.12+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-0.3.0-brightgreen)
-![CI](https://github.com/FB-castro/degen/actions/workflows/ci.yml/badge.svg)
+![Version](https://img.shields.io/badge/version-0.5.3-brightgreen)
 
-Generate production-ready data engineering architectures in seconds.
+Opinionated CLI for generating production-ready data engineering scaffolds.
 
-DEGEN is a modern CLI that scaffolds real-world data engineering systems — complete with Docker, environment configuration, virtual environments, and working examples.
+DEGEN creates structured, working data engineering projects with:
 
+- Virtual environment setup
+- dbt integration
+- Dynamic store configuration (DuckDB or Postgres)
+- Automatic `.env` generation
+- Docker support
+- Makefile orchestration
 
 ---
 
-## ✨ Features
+## ✨ Current Features (v0.5.3)
 
-- 🏗 Batch ETL (DuckDB)
-- 🔄 ELT (Airflow + Postgres)
-- 🏞 Medallion (Spark + MinIO)
-- 📊 Analytics Engineering (dbt + DuckDB)
-- 🐳 Docker-ready stacks
-- 🧪 Local execution with `.venv`
-- 🩺 Environment validation (`doctor`)
-- ℹ Installation info (`info`)
-- 🔎 Structured logging
-- ⚡ Interactive + non-interactive mode
+### 🏗 Architecture
+- Batch ETL pattern
+- One tool per phase (extract, transform, store)
+- Pattern validation before project generation
+
+### 🔌 Supported Tools
+
+#### Extract
+- Python
+
+#### Transform
+- dbt (1.7.x)
+
+#### Store
+- DuckDB
+- Postgres
+
+---
+
+## ⚙️ What DEGEN Generates
+
+Each generated project includes:
+
+- Structured project scaffold
+- `.env` file with tool-specific variables
+- `requirements.txt` with pinned dependencies
+- Dynamic `Makefile` with install/run/test targets
+- `docker-compose.yml`
+- dbt project initialized automatically
+- dbt `profiles.yml` generated dynamically based on selected store
 
 ---
 
@@ -38,85 +63,60 @@ pipx install degen
 ### Development
 
 ```bash
-git clone https://github.com/youruser/degen.git
+git clone https://github.com/FB-castro/degen.git
 cd degen
 pipx install -e .
 ```
 
 ---
 
-## ⚡ Commands
+## ⚡ Usage
 
-### Initialize a project
-
-Interactive:
+### Initialize a new project
 
 ```bash
 degen init
 ```
 
-Non-interactive:
+The CLI will prompt you to:
 
-```bash
-degen init --name myproj --pattern Analytics --stack "dbt + DuckDB"
-```
-
----
-
-### List patterns and stacks
-
-```bash
-degen list
-```
+1. Choose project name  
+2. Select architecture pattern  
+3. Select one tool per phase (extract, transform, store)
 
 ---
 
-### Validate environment
+## 📦 Example Generated Project
 
-```bash
-degen doctor
+Example (Python + dbt + DuckDB):
+
 ```
-
----
-
-### Show installation info
-
-```bash
-degen info
-```
-
----
-
-## 🔧 Global Flags
-
-| Flag | Description |
-|------|------------|
-| `--version` | Show DEGEN version |
-| `--verbose` / `-v` | Enable debug logs |
-| `--quiet` / `-q` | Suppress non-error logs |
-
-Example:
-
-```bash
-degen init --name myproj -v
-```
-
----
-
-## 🧱 Example Generated Structure
-
-```text
 my_project/
-├── src/
-├── models/
 ├── data/
-├── lake/
+│   ├── raw/
+│   └── warehouse.duckdb
+├── src/
+│   └── extract.py
+├── my_project/          # dbt project
+├── docker-compose.yml
 ├── requirements.txt
 ├── .env
 ├── Makefile
-├── Dockerfile
+```
+
+Example (Python + dbt + Postgres):
+
+```
+my_project/
+├── data/
+│   └── raw/
+├── src/
+│   └── extract.py
+├── my_project/          # dbt project
 ├── docker-compose.yml
-└── README.md
+├── requirements.txt
+├── .env
+├── Makefile
 ```
 
 ---
@@ -127,27 +127,65 @@ my_project/
 cd my_project
 make install
 make run
+make test
 ```
 
-Or:
+Start infrastructure (if store uses Docker):
 
 ```bash
 make docker-up
 ```
 
+Stop infrastructure:
+
+```bash
+make docker-down
+```
+
 ---
 
-## 🛣 Roadmap
+## 🔐 Environment Configuration
 
-- [ ] Spark + Iceberg
-- [ ] dbt + Postgres
-- [ ] Streaming (Flink)
-- [ ] Plugin system
-- [ ] Template marketplace
-- [ ] SaaS version
+DEGEN automatically generates a `.env` file including:
+
+- PROJECT_NAME
+- DBT_THREADS
+- DUCKDB_PATH (if DuckDB selected)
+- POSTGRES_HOST
+- POSTGRES_PORT
+- POSTGRES_USER
+- POSTGRES_PASSWORD
+- POSTGRES_DB
+
+The Makefile and Docker configuration consume these variables automatically.
+
+---
+
+## 🧠 Design Philosophy
+
+DEGEN is:
+
+- Opinionated
+- Minimal
+- Extensible
+- Stack-aware
+- Environment-driven
+
+It favors clarity and explicit architecture over template sprawl.
+
+---
+
+## 🛣 Next Major Version (v0.6.0)
+
+The next release will introduce:
+
+- Pattern-defined base project structure
+- More structured directory layout
+- Improved Docker networking
+- Stronger separation between pattern and tool responsibilities
 
 ---
 
 ## 📄 License
 
-[MIT](LICENSE)
+MIT
