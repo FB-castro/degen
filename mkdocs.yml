@@ -1,25 +1,26 @@
 site_name: DEGEN
-site_description: Data Engineering Project Generator — scaffold production-ready data pipelines in minutes
-site_url: https://fcastro.github.io/degen
-repo_url: https://github.com/fcastro/degen
-repo_name: fcastro/degen
-edit_uri: edit/main/docs/
+site_description: The Data Engineering Framework — scaffold, run, and learn production-ready pipelines in minutes
+site_url: https://fb-castro.github.io/degen
+repo_url: https://github.com/FB-castro/degen
+repo_name: FB-castro/degen
+edit_uri: ""
 
 theme:
   name: material
+  custom_dir: docs/overrides
   palette:
-    - scheme: default
-      primary: green
-      accent: light green
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
     - scheme: slate
-      primary: green
-      accent: light green
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
   font:
     text: Inter
     code: JetBrains Mono
@@ -29,10 +30,12 @@ theme:
     - navigation.top
     - navigation.instant
     - navigation.tracking
+    - navigation.indexes
     - search.highlight
     - search.suggest
     - content.code.copy
     - content.code.annotate
+    - toc.follow
   icon:
     repo: fontawesome/brands/github
 
@@ -42,6 +45,14 @@ extra_css:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Tutorial:
+      - tutorial/index.md
+      - "1. Init & Install": tutorial/01-init.md
+      - "2. Start Services": tutorial/02-docker.md
+      - "3. Create the DAG": tutorial/03-airflow-dag.md
+      - "4. PySpark Transform": tutorial/04-pyspark.md
+      - "5. dbt Models": tutorial/05-dbt-models.md
+      - "6. Run End-to-End": tutorial/06-run.md
   - Patterns:
       - Batch ETL: patterns/batch-etl.md
       - Analytics: patterns/analytics.md
@@ -51,7 +62,11 @@ nav:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -62,11 +77,14 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - attr_list
   - md_in_html
   - tables
   - toc:
       permalink: true
+      title: On this page
 
 plugins:
   - search
@@ -74,4 +92,6 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/fcastro/degen
+      link: https://github.com/FB-castro/degen
+      name: DEGEN on GitHub
+  generator: false
