@@ -19,11 +19,27 @@ from degen.core.phases import Phase
 from degen.core.project_config import load_config
 from degen.cli_runner import run_project_command
 
+def version_callback(value: bool):
+    if value:
+        print(f"degen {__version__}")
+        raise typer.Exit()
+
 app = typer.Typer(
     help="DEGEN — Data Engineering Project Generator",
     no_args_is_help=True,
     rich_markup_mode="rich",
 )
+
+@app.callback()
+def main(
+    version: bool = typer.Option(
+        None, "--version", "-V",
+        callback=version_callback,
+        is_eager=True,
+        help="Show version and exit.",
+    ),
+):
+    pass
 console = Console()
 
 
