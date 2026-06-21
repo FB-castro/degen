@@ -13,7 +13,7 @@ DEGEN is a CLI framework for data engineers. Answer three questions about your a
 ## Install
 
 ```bash
-pipx install degen
+pipx install degen-cli
 ```
 
 Requires Python 3.12+ and Docker.

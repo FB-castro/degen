@@ -11,7 +11,7 @@
 ## Installation
 
 ```bash
-pipx install degen
+pipx install degen-cli
 ```
 
 Verify:

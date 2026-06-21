@@ -41,7 +41,7 @@ raw_sales.csv  →  PySpark clean  →  Postgres (staging)
 Install DEGEN:
 
 ```bash
-pipx install degen
+pipx install degen-cli
 degen version   # degen 0.7.0
 ```
 
