@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ 'stylesheets/extra.css' | url }}">
+{% endblock %}
+
+{% block tabs %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<style>
+/* ─── Reset page padding for hero ────────────────────────── */
+.md-content__inner { padding-top: 0; margin: 0; max-width: 100%; }
+.md-content { min-width: 0; }
+
+/* ─── Hero ────────────────────────────────────────────────── */
+.dg-hero {
+  text-align: center;
+  padding: 6rem 2rem 5rem;
+  background: linear-gradient(160deg, #020d18 0%, #0a1628 50%, #0f2217 100%);
+  border-bottom: 1px solid rgba(74,222,128,.15);
+  position: relative;
+  overflow: hidden;
+}
+.dg-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% -10%, rgba(74,222,128,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.dg-hero-badge {
+  display: inline-block;
+  background: rgba(74,222,128,.12);
+  border: 1px solid rgba(74,222,128,.3);
+  color: #4ade80;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+}
+.dg-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.08;
+  color: #f1f5f9;
+  margin: 0 0 1rem;
+}
+.dg-hero h1 span { color: #4ade80; }
+.dg-hero p {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+.dg-hero-code {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: .75rem 1.5rem;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: .95rem;
+  color: #4ade80;
+  margin-bottom: 2rem;
+  cursor: default;
+}
+.dg-hero-code span { color: #475569; }
+.dg-hero-btns {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.dg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.5rem;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: transform .15s, box-shadow .15s;
+  cursor: pointer;
+}
+.dg-btn:hover { transform: translateY(-2px); }
+.dg-btn-primary {
+  background: #4ade80;
+  color: #052e16 !important;
+  box-shadow: 0 0 20px rgba(74,222,128,.25);
+}
+.dg-btn-primary:hover { background: #86efac; box-shadow: 0 0 30px rgba(74,222,128,.35); }
+.dg-btn-ghost {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #94a3b8 !important;
+}
+.dg-btn-ghost:hover { border-color: #4ade80; color: #4ade80 !important; }
+
+/* ─── Sections wrapper ────────────────────────────────────── */
+.dg-sections {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+.dg-section { margin-top: 4rem; }
+.dg-section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #4ade80;
+  margin-bottom: .5rem;
+}
+.dg-section-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  color: #f1f5f9;
+  margin: 0 0 .5rem;
+}
+.dg-section-sub {
+  color: #64748b;
+  font-size: .95rem;
+  margin: 0 0 2rem;
+}
+
+/* ─── Feature grid ────────────────────────────────────────── */
+.dg-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+.dg-feature {
+  background: #0d1f12;
+  border: 1px solid #1a3320;
+  border-radius: 14px;
+  padding: 1.6rem;
+  transition: border-color .15s, transform .15s;
+}
+.dg-feature:hover { border-color: rgba(74,222,128,.4); transform: translateY(-3px); }
+.dg-feature-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74,222,128,.1);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.dg-feature h3 {
+  font-size: .95rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 .4rem;
+}
+.dg-feature p {
+  font-size: .83rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Terminal ────────────────────────────────────────────── */
+.dg-terminal {
+  background: #020d18;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  font-family: "JetBrains Mono", monospace;
+}
+.dg-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .7rem 1rem;
+  background: #0a1628;
+  border-bottom: 1px solid #1e293b;
+}
+.dg-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dg-dot-r { background: #ef4444; }
+.dg-dot-y { background: #f59e0b; }
+.dg-dot-g { background: #4ade80; }
+.dg-terminal-title { margin-left: .5rem; font-size: .72rem; color: #475569; }
+.dg-terminal-body { padding: 1.25rem 1.5rem; font-size: .82rem; line-height: 2; }
+.dg-terminal-body .cmd { color: #4ade80; }
+.dg-terminal-body .out { color: #64748b; }
+.dg-terminal-body .ok  { color: #86efac; }
+.dg-terminal-body .hl  { color: #f1f5f9; }
+
+/* ─── Pattern cards ───────────────────────────────────────── */
+.dg-patterns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1rem;
+}
+.dg-pattern {
+  display: block;
+  background: #0d1a2b;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  padding: 1.75rem;
+  text-decoration: none !important;
+  transition: border-color .2s, transform .2s;
+  position: relative;
+  overflow: hidden;
+}
+.dg-pattern::after {
+  content: "→";
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  color: #1e293b;
+  font-size: 1.2rem;
+  transition: color .2s, transform .2s;
+}
+.dg-pattern:hover { border-color: #4ade80; transform: translateY(-4px); }
+.dg-pattern:hover::after { color: #4ade80; transform: translateX(4px); }
+.dg-pattern-num {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #4ade80;
+  margin-bottom: .6rem;
+  opacity: .7;
+}
+.dg-pattern h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0 0 .5rem;
+}
+.dg-pattern p {
+  font-size: .85rem;
+  color: #64748b;
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+}
+.dg-pattern-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+.dg-tag {
+  background: rgba(74,222,128,.08);
+  border: 1px solid rgba(74,222,128,.15);
+  color: #4ade80;
+  font-size: .7rem;
+  font-weight: 600;
+  padding: .2rem .55rem;
+  border-radius: 6px;
+}
+
+/* ─── UI table ────────────────────────────────────────────── */
+.dg-ui-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: .75rem;
+}
+.dg-ui-card {
+  background: #0d1a2b;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+.dg-ui-tool { font-size: .85rem; font-weight: 700; color: #e2e8f0; margin-bottom: .2rem; }
+.dg-ui-name { font-size: .75rem; color: #4ade80; margin-bottom: .15rem; }
+.dg-ui-port { font-size: .7rem; color: #334155; font-family: "JetBrains Mono", monospace; }
+
+/* ─── Tutorial CTA ────────────────────────────────────────── */
+.dg-cta {
+  text-align: center;
+  background: linear-gradient(135deg, #052e16 0%, #0d2016 100%);
+  border: 1px solid rgba(74,222,128,.2);
+  border-radius: 16px;
+  padding: 4rem 2rem;
+  margin-top: 4rem;
+}
+.dg-cta h2 { font-size: 2rem; font-weight: 800; color: #f1f5f9; margin: 0 0 .75rem; letter-spacing: -.5px; }
+.dg-cta p { color: #64748b; font-size: 1rem; margin: 0 0 2rem; }
+
+/* ─── Light mode overrides ────────────────────────────────── */
+[data-md-color-scheme="default"] .dg-hero {
+  background: linear-gradient(160deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%);
+  border-bottom-color: rgba(22,163,74,.15);
+}
+[data-md-color-scheme="default"] .dg-hero::before {
+  background: none;
+}
+[data-md-color-scheme="default"] .dg-hero h1 { color: #0f172a; }
+[data-md-color-scheme="default"] .dg-hero p { color: #475569; }
+[data-md-color-scheme="default"] .dg-hero-code { background: #0f172a; }
+[data-md-color-scheme="default"] .dg-section-title { color: #0f172a; }
+[data-md-color-scheme="default"] .dg-feature { background: #f0fdf4; border-color: #bbf7d0; }
+[data-md-color-scheme="default"] .dg-feature h3 { color: #0f172a; }
+[data-md-color-scheme="default"] .dg-terminal { background: #0f172a; }
+[data-md-color-scheme="default"] .dg-terminal-bar { background: #1e293b; }
+[data-md-color-scheme="default"] .dg-pattern { background: #f8fafc; border-color: #e2e8f0; }
+[data-md-color-scheme="default"] .dg-pattern h3 { color: #0f172a; }
+[data-md-color-scheme="default"] .dg-ui-card { background: #f8fafc; border-color: #e2e8f0; }
+[data-md-color-scheme="default"] .dg-ui-tool { color: #0f172a; }
+[data-md-color-scheme="default"] .dg-cta { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-color: rgba(22,163,74,.2); }
+[data-md-color-scheme="default"] .dg-cta h2 { color: #0f172a; }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  HERO                                                          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="dg-hero">
+  <div class="dg-hero-badge">Open Source &nbsp;·&nbsp; v0.7.0 &nbsp;·&nbsp; Python 3.12+</div>
+  <h1>The <span>Data Engineering</span><br>Framework</h1>
+  <p>Answer three questions. Get a complete, working pipeline — Docker services, dependencies, UIs, and a unified CLI to run it all.</p>
+  <div class="dg-hero-code">
+    <span>$</span> pipx install degen
+  </div>
+  <div class="dg-hero-btns">
+    <a href="{{ 'tutorial/index.md' | url }}" class="dg-btn dg-btn-primary">Start Tutorial →</a>
+    <a href="{{ 'getting-started.md' | url }}" class="dg-btn dg-btn-ghost">Getting Started</a>
+    <a href="https://github.com/FB-castro/degen" class="dg-btn dg-btn-ghost">GitHub ↗</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  SECTIONS                                                      -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="dg-sections">
+
+  <!-- Features -->
+  <div class="dg-section">
+    <div class="dg-section-label">Why DEGEN</div>
+    <div class="dg-section-title">Everything wired. Zero boilerplate.</div>
+    <p class="dg-section-sub">Everything you'd spend half a day configuring by hand — done in 60 seconds.</p>
+    <div class="dg-features">
+      <div class="dg-feature">
+        <div class="dg-feature-icon">⚡</div>
+        <h3>Interactive Scaffold</h3>
+        <p>Three questions. DEGEN generates a complete project tailored to your stack.</p>
+      </div>
+      <div class="dg-feature">
+        <div class="dg-feature-icon">🐋</div>
+        <h3>Services Out of the Box</h3>
+        <p>Kafka, Postgres, Airflow, Grafana — all in Docker, pre-wired. One <code>degen docker-up</code>.</p>
+      </div>
+      <div class="dg-feature">
+        <div class="dg-feature-icon">🖥️</div>
+        <h3>UI for Every Tool</h3>
+        <p>Kafka UI, pgAdmin, Prefect, dbt Docs, Jupyter — all registered and ready, no manual config.</p>
+      </div>
+      <div class="dg-feature">
+        <div class="dg-feature-icon">🚀</div>
+        <h3>Unified CLI</h3>
+        <p><code>degen run</code>, <code>degen stream</code>, <code>degen docs</code> — one consistent interface across all stacks.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Start terminal -->
+  <div class="dg-section">
+    <div class="dg-section-label">Quick Start</div>
+    <div class="dg-section-title">From zero to running in 5 commands</div>
+    <div class="dg-terminal">
+      <div class="dg-terminal-bar">
+        <span class="dg-dot dg-dot-r"></span>
+        <span class="dg-dot dg-dot-y"></span>
+        <span class="dg-dot dg-dot-g"></span>
+        <span class="dg-terminal-title">Terminal</span>
+      </div>
+      <div class="dg-terminal-body">
+        <div><span class="cmd">$ degen init</span></div>
+        <div><span class="out">&nbsp; Project name: sales_pipeline</span></div>
+        <div><span class="out">&nbsp; Pattern: Analytics</span></div>
+        <div><span class="out">&nbsp; Tools: Airflow · dbt · Postgres · Grafana</span></div>
+        <div><span class="ok">&nbsp; ✓ Generated sales_pipeline/</span></div>
+        <br>
+        <div><span class="cmd">$ degen install</span></div>
+        <div><span class="ok">&nbsp; ✓ Dependencies installed</span></div>
+        <br>
+        <div><span class="cmd">$ degen docker-up</span></div>
+        <div><span class="ok">&nbsp; ✓ Postgres · pgAdmin · Grafana · Airflow</span></div>
+        <br>
+        <div><span class="cmd">$ degen run</span></div>
+        <div><span class="ok">&nbsp; ✓ Pipeline executed</span></div>
+        <br>
+        <div><span class="cmd">$ degen ui</span></div>
+        <div><span class="out">&nbsp; Airflow UI &nbsp;&nbsp;→ &nbsp;</span><span class="hl">http://localhost:8080</span></div>
+        <div><span class="out">&nbsp; pgAdmin &nbsp;&nbsp;&nbsp;&nbsp;→ &nbsp;</span><span class="hl">http://localhost:5050</span></div>
+        <div><span class="out">&nbsp; Grafana &nbsp;&nbsp;&nbsp;&nbsp;→ &nbsp;</span><span class="hl">http://localhost:3001</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture Patterns -->
+  <div class="dg-section">
+    <div class="dg-section-label">Architecture Patterns</div>
+    <div class="dg-section-title">Choose your stack</div>
+    <p class="dg-section-sub">Three production-proven patterns. Each one generates a fully working project.</p>
+    <div class="dg-patterns">
+      <a href="{{ 'patterns/batch-etl.md' | url }}" class="dg-pattern">
+        <div class="dg-pattern-num">Pattern 01</div>
+        <h3>Batch ETL</h3>
+        <p>Extract raw data, transform with dbt, persist in DuckDB or Postgres. Explore results in Jupyter.</p>
+        <div class="dg-pattern-tools">
+          <span class="dg-tag">Python</span>
+          <span class="dg-tag">dbt</span>
+          <span class="dg-tag">DuckDB</span>
+          <span class="dg-tag">Postgres</span>
+        </div>
+      </a>
+      <a href="{{ 'patterns/analytics.md' | url }}" class="dg-pattern">
+        <div class="dg-pattern-num">Pattern 02</div>
+        <h3>Analytics</h3>
+        <p>Orchestrate scheduled pipelines with Prefect or Airflow. Visualize with Grafana or Metabase.</p>
+        <div class="dg-pattern-tools">
+          <span class="dg-tag">Airflow</span>
+          <span class="dg-tag">dbt</span>
+          <span class="dg-tag">Postgres</span>
+          <span class="dg-tag">Grafana</span>
+        </div>
+      </a>
+      <a href="{{ 'patterns/streaming.md' | url }}" class="dg-pattern">
+        <div class="dg-pattern-num">Pattern 03</div>
+        <h3>Streaming</h3>
+        <p>Real-time event processing with Kafka and PySpark Structured Streaming.</p>
+        <div class="dg-pattern-tools">
+          <span class="dg-tag">Kafka</span>
+          <span class="dg-tag">PySpark</span>
+          <span class="dg-tag">ClickHouse</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Web UIs -->
+  <div class="dg-section">
+    <div class="dg-section-label">Web Interfaces</div>
+    <div class="dg-section-title">Every tool. A UI. Always.</div>
+    <p class="dg-section-sub">No tool without a visual interface. Registered automatically, no manual setup.</p>
+    <div class="dg-ui-grid">
+      <div class="dg-ui-card"><div class="dg-ui-tool">Kafka</div><div class="dg-ui-name">Kafka UI</div><div class="dg-ui-port">:8082</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">Postgres</div><div class="dg-ui-name">pgAdmin 4</div><div class="dg-ui-port">:5050</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">Airflow</div><div class="dg-ui-name">Airflow UI</div><div class="dg-ui-port">:8080</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">Prefect</div><div class="dg-ui-name">Prefect UI</div><div class="dg-ui-port">:4200</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">dbt</div><div class="dg-ui-name">dbt Docs</div><div class="dg-ui-port">:8081</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">DuckDB</div><div class="dg-ui-name">Jupyter Lab</div><div class="dg-ui-port">:8888</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">PySpark</div><div class="dg-ui-name">Spark UI</div><div class="dg-ui-port">:4040</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">Grafana</div><div class="dg-ui-name">Grafana</div><div class="dg-ui-port">:3001</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">Metabase</div><div class="dg-ui-name">Metabase</div><div class="dg-ui-port">:3000</div></div>
+      <div class="dg-ui-card"><div class="dg-ui-tool">ClickHouse</div><div class="dg-ui-name">Play UI</div><div class="dg-ui-port">:8123/play</div></div>
+    </div>
+  </div>
+
+  <!-- Tutorial CTA -->
+  <div class="dg-cta">
+    <h2>Learn by doing</h2>
+    <p>The Tutorial walks you through a real pipeline — Airflow + PySpark + dbt + Postgres — writing every file from scratch, running every command, and seeing live results in the UI.</p>
+    <a href="{{ 'tutorial/index.md' | url }}" class="dg-btn dg-btn-primary">Start the Tutorial →</a>
+  </div>
+
+</div>
+{% endblock %}
