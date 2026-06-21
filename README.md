@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.12+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-0.7.0-brightgreen)
+![Version](https://img.shields.io/badge/version-0.7.1-brightgreen)
 
 **Scaffold production-ready data pipelines in minutes, not hours.**
 
