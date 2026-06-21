@@ -207,11 +207,11 @@ All tools are 100% open source.
 
 Full hands-on guides at the documentation site:
 
-- [Getting Started](https://felipecastro.github.io/degen/getting-started/)
-- [Batch ETL](https://felipecastro.github.io/degen/patterns/batch-etl/)
-- [Analytics](https://felipecastro.github.io/degen/patterns/analytics/)
-- [Streaming](https://felipecastro.github.io/degen/patterns/streaming/)
-- [CLI Reference](https://felipecastro.github.io/degen/cli-reference/)
+- [Getting Started](https://fb-castro.github.io/degen/getting-started/)
+- [Batch ETL](https://fb-castro.github.io/degen/patterns/batch-etl/)
+- [Analytics](https://fb-castro.github.io/degen/patterns/analytics/)
+- [Streaming](https://fb-castro.github.io/degen/patterns/streaming/)
+- [CLI Reference](https://fb-castro.github.io/degen/cli-reference/)
 
 ---
 
