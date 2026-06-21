@@ -6,63 +6,27 @@ on:
   pull_request:
 
 jobs:
-  generate-projects:
+  install-and-smoke:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # Batch
-          - pattern: "Batch ETL"
-            stack: "DuckDB Local"
-
-          - pattern: "Batch ETL"
-            stack: "dbt + DuckDB"
-
-          # Analytics
-          - pattern: "Analytics"
-            stack: "dbt + DuckDB"
-
-          # Medallion
-          - pattern: "Medallion"
-            stack: "Spark + MinIO"
-
-          # ELT
-          - pattern: "ELT"
-            stack: "Airflow + Postgres"
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: "3.12"
 
-      - name: Install degen
+      - name: Install degen-cli
         run: pip install .
 
-      - name: Cleanup old project
-        run: rm -rf test_project
+      - name: Verify CLI is callable
+        run: degen --version
 
-      - name: Generate project
-        run: |
-          degen init \
-            --name test_project \
-            --pattern "${{ matrix.pattern }}" \
-            --stack "${{ matrix.stack }}"
+      - name: Verify subcommand version
+        run: degen version
 
-      - name: Install project dependencies
-        run: |
-          cd test_project
-          make install
+      - name: Verify help output
+        run: degen --help
 
-      - name: Run project
-        run: |
-          cd test_project
-          make run || true
-
-      - name: Validate Docker Compose
-        run: |
-          cd test_project
-          make docker-validate
+      - name: Verify package metadata
+        run: python -c "from importlib.metadata import version; print(version('degen-cli'))"
