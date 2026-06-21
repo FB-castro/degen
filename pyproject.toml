@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "degen"
-version = "0.5.3"
+version = "0.7.0"
 description = "Data Engineering Architecture Composer CLI"
 authors = [{ name="Felipe Castro" }]
 readme = "README.md"
@@ -14,7 +14,8 @@ dependencies = [
     "typer>=0.9.0",
     "questionary>=2.0.1",
     "rich>=13.7.0",
-    "PyYAML>=6.0"
+    "PyYAML>=6.0",
+    "python-dotenv>=1.0.0"
 ]
 
 [project.scripts]

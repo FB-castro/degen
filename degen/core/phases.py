@@ -7,3 +7,4 @@ class Phase(str, Enum):
     STORE = "store"
     ORCHESTRATE = "orchestrate"
     SERVE = "serve"
+    STREAM = "stream"

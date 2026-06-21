@@ -2,15 +2,14 @@ from degen.patterns.base import Pattern
 from degen.core.phases import Phase
 
 
-class AnalyticsPattern(Pattern):
+class StreamingPattern(Pattern):
 
-    name = "Analytics"
+    name = "Streaming"
 
     required_phases = [
-        Phase.ORCHESTRATE,
+        Phase.STREAM,
         Phase.TRANSFORM,
         Phase.STORE,
-        Phase.SERVE,
     ]
 
     def validate_tools(self, tools):
