@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/FB-castro/degen/discussions
+    about: Use GitHub Discussions for questions and ideas
+  - name: Documentation
+    url: https://fb-castro.github.io/degen/
+    about: Read the full docs and tutorial

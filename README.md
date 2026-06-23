@@ -215,6 +215,23 @@ Full hands-on guides at the documentation site:
 
 ---
 
+## Community
+
+- [GitHub Discussions](https://github.com/FB-castro/degen/discussions) — questions, ideas, show & tell
+- [Bug reports](https://github.com/FB-castro/degen/issues/new?template=bug_report.yml)
+- [Feature requests](https://github.com/FB-castro/degen/issues/new?template=feature_request.yml)
+- [Contributing guide](CONTRIBUTING.md)
+
+---
+
+## Sponsors
+
+DEGEN is free and open source. If it saves you time, consider sponsoring:
+
+**[Become a sponsor →](https://github.com/sponsors/FB-castro)**
+
+---
+
 ## Development
 
 ```bash
