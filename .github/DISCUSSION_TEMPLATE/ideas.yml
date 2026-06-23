@@ -1,0 +1,23 @@
+title: "[Idea] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got an idea for DEGEN? New tool integration, architecture pattern, CLI improvement — share it here before opening a feature request issue.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Describe your idea
+      placeholder: What would you like DEGEN to support or do differently?
+    validations:
+      required: true
+
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Your use case
+      placeholder: What problem would this solve for you?
+    validations:
+      required: true

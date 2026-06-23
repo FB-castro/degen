@@ -1,0 +1,26 @@
+title: "[Show] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Built something with DEGEN? Share it here — pipelines, customizations, integrations, articles, or anything you'd like to show the community.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What did you build?
+    validations:
+      required: true
+
+  - type: input
+    id: pattern
+    attributes:
+      label: Pattern used
+      placeholder: "Batch ETL / Analytics / Streaming"
+
+  - type: input
+    id: link
+    attributes:
+      label: Link (optional)
+      placeholder: GitHub repo, article, screenshot...

@@ -1,0 +1,14 @@
+title: "[General] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome! Use this space for general questions, feedback, or anything that doesn't fit a bug report or feature request.
+
+  - type: textarea
+    id: content
+    attributes:
+      label: What's on your mind?
+    validations:
+      required: true
