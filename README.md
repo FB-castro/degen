@@ -4,6 +4,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-0.7.3-brightgreen)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/degen-cli?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/degen-cli)
+[![Sponsor](https://img.shields.io/badge/sponsor-♥-ea4aaa?logo=github-sponsors)](https://github.com/sponsors/FB-castro)
 **Scaffold production-ready data pipelines in minutes, not hours.**
 
 DEGEN is a CLI framework for data engineers. Answer three questions about your architecture, and DEGEN generates a complete, working project — Docker services, dependencies, configuration, pipeline scripts, and a unified `degen` command to run everything.
