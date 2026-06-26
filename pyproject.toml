@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "degen-cli"
-version = "0.7.3"
+version = "0.7.4"
 description = "Data Engineering Architecture Composer CLI"
 authors = [{ name="Felipe Castro" }]
 readme = "README.md"
